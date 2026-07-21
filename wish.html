@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lời chúc từ những người bạn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Caveat:wght@500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2a2419;
+    --sepia:#7a5c34;
+    --wax:#7f312a;
+    --paper:#fffdf6;
+    --paper-soft:#fff6d8;
+    --mint:#cfe9d7;
+    --rose:#e9b7b0;
+    --gold:#e4bc63;
+    --sky:#9cc9d8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{min-height:100%;background:#fbf4df;}
+  body{
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Cormorant Garamond', serif;
+    background:
+      radial-gradient(circle at 12% 12%, rgba(255,248,215,.95) 0 8%, transparent 24%),
+      radial-gradient(circle at 86% 16%, rgba(207,233,215,.82) 0 9%, transparent 26%),
+      radial-gradient(circle at 18% 82%, rgba(233,183,176,.74) 0 8%, transparent 25%),
+      radial-gradient(circle at 78% 78%, rgba(156,201,216,.68) 0 10%, transparent 28%),
+      linear-gradient(135deg, #f9efd5 0%, #fffdf6 38%, #f3dfbc 100%);
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+      linear-gradient(90deg, rgba(127,49,42,.08) 1px, transparent 1px),
+      linear-gradient(rgba(127,49,42,.06) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,.38), rgba(0,0,0,.05));
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(circle, rgba(228,188,99,.54) 0 2px, transparent 3px) 8% 16% / 92px 92px,
+      radial-gradient(circle, rgba(127,49,42,.34) 0 1.5px, transparent 3px) 72% 12% / 118px 118px,
+      radial-gradient(circle, rgba(122,92,52,.24) 0 1.5px, transparent 3px) 34% 78% / 106px 106px;
+  }
+  .page{
+    position:relative;
+    z-index:1;
+    width:min(1120px, calc(100% - 32px));
+    margin:0 auto;
+    padding:34px 0 44px;
+  }
+  .hero{
+    min-height:clamp(190px, 28vh, 270px);
+    display:grid;
+    align-content:center;
+    justify-items:center;
+    text-align:center;
+    gap:10px;
+  }
+  .kicker{
+    font-family:'Special Elite', monospace;
+    font-size:.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--sepia);
+  }
+  h1{
+    font-family:'Caveat', cursive;
+    font-size:clamp(3.1rem, 8vw, 6.8rem);
+    line-height:.86;
+    color:var(--wax);
+    font-weight:600;
+  }
+  .intro{
+    width:min(650px, 94%);
+    font-size:clamp(1.05rem, 2vw, 1.35rem);
+    line-height:1.25;
+    color:#4f3b25;
+  }
+  .wish-board{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:16px;
+    align-items:stretch;
+  }
+  .wish-card{
+    position:relative;
+    min-height:260px;
+    padding:18px 18px 16px;
+    border:1px solid rgba(42,36,25,.28);
+    border-radius:8px;
+    background:var(--paper);
+    box-shadow:0 16px 34px rgba(84,53,27,.14);
+    overflow:hidden;
+  }
+  .wish-card::before{
+    content:"";
+    position:absolute;
+    inset:0 0 auto;
+    height:7px;
+    background:linear-gradient(90deg, var(--gold), var(--rose), var(--mint), var(--sky));
+  }
+  .friend{
+    display:grid;
+    grid-template-columns:96px 1fr;
+    gap:14px;
+    align-items:center;
+    min-height:112px;
+    margin-bottom:8px;
+  }
+  .friend-img{
+    width:96px;
+    height:112px;
+    object-fit:contain;
+    filter:drop-shadow(0 10px 12px rgba(84,53,27,.18));
+    user-select:none;
+  }
+  .friend-name{
+    font-family:'Special Elite', monospace;
+    font-size:.78rem;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    color:var(--sepia);
+  }
+  .friend-title{
+    display:block;
+    margin-top:5px;
+    font-family:'Caveat', cursive;
+    font-size:1.55rem;
+    line-height:.95;
+    color:var(--wax);
+  }
+  .wish-text{
+    font-size:1.08rem;
+    line-height:1.34;
+    color:#352b1c;
+  }
+  .actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:22px;
+  }
+  .action-btn{
+    font-family:'Special Elite', monospace;
+    font-size:.66rem;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--ink);
+    border:1px solid var(--ink);
+    background:rgba(255,253,246,.72);
+    padding:10px 16px;
+    transition:background .25s ease, color .25s ease, transform .25s ease;
+  }
+  .action-btn:hover{
+    background:var(--ink);
+    color:var(--paper);
+    transform:translateY(-1px);
+  }
+  @media (max-width:920px){
+    .wish-board{grid-template-columns:repeat(2, minmax(0, 1fr));}
+  }
+  @media (max-width:620px){
+    .page{width:min(100% - 22px, 420px);padding:22px 0 30px;}
+    .hero{min-height:180px;}
+    .wish-board{grid-template-columns:1fr;gap:12px;}
+    .wish-card{min-height:220px;padding:15px 14px 13px;}
+    .friend{grid-template-columns:76px 1fr;gap:10px;min-height:92px;}
+    .friend-img{width:76px;height:92px;}
+    .friend-name{font-size:.62rem;}
+    .friend-title{font-size:1.32rem;}
+    .wish-text{font-size:1rem;line-height:1.28;}
+    .actions{flex-wrap:wrap;}
+    .action-btn{font-size:.56rem;padding:9px 12px;}
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="wish-title">
+      <p class="kicker">Những lời chúc được gửi đến hôm nay</p>
+      <h1 id="wish-title">Sổ chúc mừng sinh nhật</h1>
+    </section>
+
+    <section class="wish-board" aria-label="Lời chúc của các nhân vật">
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/math.png" alt="Math" draggable="false">
+          <div><span class="friend-name">Math</span><span class="friend-title">Dù xa vẫn ở đây</span></div>
+        </div>
+        <p class="wish-text">Cậu có thể xa lánh tớ nhưng tớ vẫn luôn đồng hành cùng cậu.</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/Deft.png" alt="Deft" draggable="false">
+          <div><span class="friend-name">Deft</span><span class="friend-title">Hẹn ngày trở lại</span></div>
+        </div>
+        <p class="wish-text">곧 돌아옵니다.</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/kt.png" alt="KT" draggable="false">
+          <div><span class="friend-name">KT</span><span class="friend-title">Đánh địch hết mình, thương fan hết ý</span></div>
+        </div>
+        <p class="wish-text">Tuổi mới của fan, hứa "đánh địch, thương fan", không "đánh fan, thương địch".</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/judy.png" alt="Judy" draggable="false">
+          <div><span class="friend-name">Judy</span><span class="friend-title">Cứ tiến về phía trước nhé</span></div>
+        </div>
+        <p class="wish-text">Chúc cậu luôn giữ được trái tim ấm áp, sự tử tế và lòng can đảm để bước qua mọi chuyện bằng nụ cười rất riêng của mình.</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/nick.png" alt="Nick" draggable="false">
+          <div><span class="friend-name">Nick</span><span class="friend-title">Lém lỉnh một chút, vui vẻ thật nhiều</span></div>
+        </div>
+        <p class="wish-text">Chúc cậu có thêm thật nhiều niềm vui bất ngờ, những cuộc hẹn dễ thương và những ngày bình thường cũng trở nên đáng nhớ.</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/kid.png" alt="Kid" draggable="false">
+          <div><span class="friend-name">Kid</span><span class="friend-title">Phi vụ bất khả thi</span></div>
+        </div>
+        <p class="wish-text">Đêm nay, anh đến để đánh cắp deadline của em. Nhưng xem ra kho báu ấy nhiều đến mức ngay cả siêu trộm cũng đành bất lực.</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/conan.png" alt="Conan" draggable="false">
+          <div><span class="friend-name">Conan</span><span class="friend-title">Sự thật chỉ có một, niềm vui thì có rất nhiều</span></div>
+        </div>
+        <p class="wish-text">Chúc cậu khám phá ra thật nhiều điều tuyệt vời trong tuổi mới, kể cả những hạnh phúc nhỏ từng lặng lẽ chờ được tìm thấy.</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/pikachu.png" alt="Pikachu" draggable="false">
+          <div><span class="friend-name">Pikachu</span><span class="friend-title">Nạp đầy năng lượng nhé</span></div>
+        </div>
+        <p class="wish-text">Pika pika! Pika pi, pikachu pika pika! Pikaaaa chu, pika pi pi, chuuu!</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/doraemon.png" alt="Doraemon" draggable="false">
+          <div><span class="friend-name">Doraemon</span><span class="friend-title">Một món bảo bối cho tuổi mới</span></div>
+        </div>
+        <p class="wish-text">Chúc cậu tuổi mới vui vẻ, cần thứ gì có thứ đó. Nếu cậu rảnh thì đi gia sư Toán cho Nobita giúp tớ nhé!</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/minion.png" alt="Minion" draggable="false">
+          <div><span class="friend-name">Minion</span><span class="friend-title">Banana và thật nhiều tiếng cười</span></div>
+        </div>
+        <p class="wish-text">Bello! Bananaaaa! Papoy papoy, tulaliloo ti amo! Bee-do bee-do, sinh nhật vui hết nấc nha!</p>
+      </article>
+
+      <article class="wish-card">
+        <div class="friend">
+          <img class="friend-img" src="img/cat.png" alt="Cat" draggable="false">
+          <div><span class="friend-name">Cat</span><span class="friend-title">Hôm nay cứ để mọi người cưng chiều</span></div>
+        </div>
+        <p class="wish-text">Meo meow meow. Meo meo meoooo, purr purr, meow meow meow!</p>
+      </article>
+
+    </section>
+
+    <nav class="actions" aria-label="Điều hướng">
+      <a class="action-btn" href="birthday.html">Quay lại tiệc sinh nhật</a>
+      <a class="action-btn" href="index.html">Quay lại lá thư</a>
+    </nav>
+  </main>
+</body>
+</html>
