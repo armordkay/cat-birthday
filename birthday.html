@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thổi nến và cầu nguyện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Caveat:wght@500;600&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2a2419;
+    --sepia:#7a5c34;
+    --wax:#9a3b32;
+    --wax-dark:#6e2820;
+    --cream:#f4ead7;
+    --cake:#d69a74;
+    --cake-dark:#9f5d42;
+    --frost:#fff3d5;
+    --night:#050712;
+    --page-scale:1.15;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{width:100%;height:100%;overflow:hidden;}
+  body{
+    min-height:100vh;
+    position:relative;
+    background:url("img/bg.png") center / cover no-repeat;
+    color:var(--ink);
+    font-family:'Cormorant Garamond', serif;
+  }
+  .stage{
+    width:min(calc(100vw / var(--page-scale)), calc((100vh / var(--page-scale)) * 16 / 9));
+    aspect-ratio:16 / 9;
+    position:fixed;
+    inset:0;
+    margin:auto;
+    transform:scale(var(--page-scale));
+    transform-origin:center center;
+    background:transparent;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    padding:34px 76px 30px;
+    overflow:hidden;
+  }
+  .header{
+    text-align:center;
+    align-self:start;
+  }
+  .header .kicker{
+    font-family:'Special Elite', monospace;
+    font-size:.62rem;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--sepia);
+  }
+  .header h1{
+    font-family:'Caveat', cursive;
+    font-size:3.45rem;
+    line-height:.9;
+    color:var(--wax-dark);
+    margin-top:4px;
+  }
+  .birthday-scene{
+    position:relative;
+    display:grid;
+    grid-template-columns:minmax(150px, 1fr) auto minmax(150px, 1fr);
+    column-gap:26px;
+    align-items:center;
+    justify-content:center;
+    min-height:0;
+    z-index:1;
+    pointer-events:none;
+  }
+  .cake-wrap{
+    position:relative;
+    grid-column:2;
+    width:min(368px, 38.4vw);
+    height:312px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    filter:drop-shadow(0 24px 26px rgba(84,53,27,.24));
+  }
+  .cake-art{
+    position:absolute;
+    left:50%;
+    bottom:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center bottom;
+    transform:translateX(-50%);
+    z-index:2;
+    pointer-events:none;
+    user-select:none;
+  }
+  .candle{
+    position:absolute;
+    bottom:170px;
+    width:11px;
+    height:43px;
+    border-radius:6px 6px 3px 3px;
+    background:
+      repeating-linear-gradient(45deg,#fff6dc 0 6px,#6fc7d7 6px 10px);
+    border:1px solid rgba(111,62,20,.28);
+    transform-origin:bottom center;
+    z-index:3;
+    box-shadow:0 4px 5px rgba(84,53,27,.18);
+  }
+  .candle.one{left:29%;height:40px;transform:rotate(-3deg);}
+  .candle.three{right:29%;height:40px;transform:rotate(3deg);}
+  .hat-flame{
+    position:absolute;
+    left:50%;
+    bottom:282px;
+    width:14px;
+    height:22px;
+    border-radius:50% 50% 45% 45%;
+    background:radial-gradient(circle at 50% 65%,#fff7a8 0 18%,#ffd25a 38%,#f08a30 72%,rgba(240,138,48,0) 74%);
+    transform:translateX(-50%);
+    filter:drop-shadow(0 0 11px rgba(255,185,74,.95));
+    animation:flicker .9s ease-in-out infinite alternate;
+    z-index:4;
+  }
+  .hat-flame::after{
+    content:"";
+    position:absolute;
+    left:50%;top:7px;
+    width:5px;height:9px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:#fff8c8;
+  }
+  .hat-smoke{
+    position:absolute;
+    left:50%;
+    bottom:301px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(85,78,69,.38);
+    opacity:0;
+    transform:translateX(-50%);
+    z-index:4;
+  }
+  .flame{
+    position:absolute;
+    left:50%;
+    top:-20px;
+    width:13px;
+    height:20px;
+    border-radius:50% 50% 45% 45%;
+    background:radial-gradient(circle at 50% 65%,#fff7a8 0 18%,#ffd25a 38%,#f08a30 72%,rgba(240,138,48,0) 74%);
+    transform:translateX(-50%);
+    filter:drop-shadow(0 0 10px rgba(255,185,74,.9));
+    animation:flicker .9s ease-in-out infinite alternate;
+  }
+  .flame::after{
+    content:"";
+    position:absolute;
+    left:50%;top:6px;
+    width:5px;height:8px;
+    transform:translateX(-50%);
+    border-radius:50%;
+    background:#fff8c8;
+  }
+  @keyframes flicker{
+    from{transform:translateX(-50%) scale(.92) rotate(-3deg);}
+    to{transform:translateX(-50%) scale(1.08) rotate(4deg);}
+  }
+  .smoke{
+    position:absolute;
+    left:50%;
+    top:-25px;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(85,78,69,.38);
+    opacity:0;
+    transform:translateX(-50%);
+  }
+  .message{
+    position:static;
+    grid-column:3;
+    justify-self:start;
+    align-self:center;
+    width:min(190px, 100%);
+    font-family:'Caveat', cursive;
+    font-size:1.6rem;
+    line-height:1.05;
+    color:var(--wax-dark);
+    opacity:0;
+    transform:translateY(12px);
+    transition:opacity .7s ease, transform .7s ease;
+    text-align:center;
+  }
+  .party-guests{
+    position:absolute;
+    inset:0;
+    z-index:9;
+    pointer-events:none;
+  }
+  .guest{
+    position:absolute;
+    width:clamp(66px, 10vw, 136px);
+    max-height:clamp(82px, 15vw, 178px);
+    object-fit:contain;
+    opacity:0;
+    filter:drop-shadow(0 18px 18px rgba(84,53,27,.22));
+    transform:translate(-50%, -50%) translateY(24px) scale(.72);
+    transition:opacity .42s ease, transform .55s cubic-bezier(.16,1,.3,1);
+    user-select:none;
+  }
+  .guest.deft{left:68%;top:7%;--d:.02s;}
+  .guest.judy{left:24%;top:54%;--d:.08s;}
+  .guest.pikachu{left:38%;top:78%;--d:.14s;}
+  .guest.doraemon{left:62%;top:78%;--d:.2s;}
+  .guest.nick{left:16%;top:58%;--d:.26s;}
+  .guest.minion{left:85%;top:74%;--d:.32s;}
+  .guest.math{left:39%;top:7%;width:clamp(58px, 8vw, 104px);--d:.38s;}
+  .guest.cat{left:30%;top:25%;width:clamp(54px, 8vw, 102px);--d:.44s;}
+  .guest.conan{left:73%;top:54%;--d:.5s;}
+  .guest.kid{left:84%;top:58%;--d:.56s;}
+  .invite-modal{
+    position:absolute;
+    left:50%;
+    bottom:78px;
+    width:min(520px, calc(100% - 80px));
+    z-index:30;
+    padding:18px 22px 16px;
+    border:1px solid rgba(42,36,25,.72);
+    background:rgba(244,234,215,.9);
+    box-shadow:0 18px 38px rgba(84,53,27,.2);
+    text-align:center;
+    opacity:0;
+    pointer-events:none;
+    transform:translate(-50%, 14px) scale(.97);
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .invite-modal.show{
+    opacity:1;
+    pointer-events:auto;
+    transform:translate(-50%, 0) scale(1);
+  }
+  .invite-modal p{
+    font-family:'Caveat', cursive;
+    font-size:1.55rem;
+    line-height:1.08;
+    color:var(--wax-dark);
+    margin-bottom:12px;
+  }
+  .invite-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+  }
+  body.wished .flame{animation:flame-out .34s ease forwards;}
+  body.wished .hat-flame{animation:flame-out .34s ease forwards;}
+  body.wished .smoke{animation:smoke-rise 1.6s ease-out forwards;}
+  body.wished .hat-smoke{animation:smoke-rise 1.6s ease-out .08s forwards;}
+  body.wished .candle.three .smoke{animation-delay:.16s;}
+  body.wished .message{opacity:1;transform:translateY(0);}
+  body.party .header,
+  body.party .wish-note,
+  body.party .message{
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease;
+  }
+  body.party .invite-modal{opacity:0;pointer-events:none;}
+  body.party .cake-wrap{
+    z-index:1;
+    transform:scale(1.05);
+    transition:transform .45s cubic-bezier(.16,1,.3,1);
+  }
+  body.party .guest{
+    opacity:1;
+    transform:translate(-50%, -50%) translateY(0) scale(1);
+    transition-delay:var(--d);
+  }
+  @keyframes flame-out{
+    to{opacity:0;transform:translateX(-50%) translateY(-4px) scale(.15);filter:none;}
+  }
+  @keyframes smoke-rise{
+    0%{opacity:0;transform:translateX(-50%) translateY(0) scale(.6);}
+    18%{opacity:.75;}
+    100%{opacity:0;transform:translateX(calc(-50% + 22px)) translateY(-74px) scale(2.4);}
+  }
+  .actions{
+    position:relative;
+    z-index:20;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    pointer-events:auto;
+  }
+  .action-btn{
+    position:relative;
+    z-index:21;
+    font-family:'Special Elite', monospace;
+    font-size:.62rem;
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--ink);
+    border:1px solid var(--ink);
+    background:rgba(244,234,215,.18);
+    padding:9px 18px;
+    cursor:pointer;
+    transition:background .25s ease,color .25s ease,transform .25s ease;
+  }
+  .action-btn:hover{
+    background:var(--ink);
+    color:var(--cream);
+    transform:translateY(-1px);
+  }
+  .wish-note{
+    position:static;
+    grid-column:1;
+    justify-self:end;
+    align-self:center;
+    width:min(190px, 100%);
+    font-size:1.02rem;
+    line-height:1.25;
+    color:#4f3b25;
+    text-align:center;
+  }
+  @media (max-width:720px){
+    .stage{padding:14px 28px 12px;}
+    .header .kicker{font-size:.36rem;}
+    .header h1{font-size:1.85rem;}
+    .birthday-scene{
+      grid-template-columns:minmax(70px, 1fr) auto minmax(70px, 1fr);
+      column-gap:6px;
+    }
+    .cake-wrap{width:35vw;height:140px;}
+    .candle{bottom:76px;width:6px;height:21px;border-radius:4px 4px 2px 2px;}
+    .candle.one{left:28%;height:19px;}
+    .candle.three{right:28%;height:19px;}
+    .hat-flame{bottom:128px;width:8px;height:13px;}
+    .hat-flame::after{top:4px;width:3px;height:6px;}
+    .hat-smoke{bottom:139px;width:3px;height:3px;}
+    .flame{top:-11px;width:7px;height:11px;}
+    .smoke{top:-14px;width:3px;height:3px;}
+    .message{width:72px;font-size:.56rem;line-height:1.05;}
+    .guest{width:clamp(34px, 12vw, 58px);max-height:clamp(44px, 16vw, 76px);}
+    .guest.deft{left:68%;top:7%;}
+    .guest.judy{left:24%;top:54%;}
+    .guest.pikachu{left:36%;top:78%;}
+    .guest.doraemon{left:64%;top:78%;}
+    .guest.nick{left:16%;top:58%;}
+    .guest.minion{left:82%;top:76%;}
+    .guest.math{left:39%;top:7%;width:clamp(30px, 10vw, 48px);}
+    .guest.cat{left:30%;top:26%;width:clamp(30px, 10vw, 48px);}
+    .guest.conan{left:72%;top:54%;}
+    .guest.kid{left:84%;top:58%;}
+    .invite-modal{bottom:42px;width:min(310px, calc(100% - 42px));padding:10px 12px 9px;}
+    .invite-modal p{font-size:.68rem;margin-bottom:7px;}
+    .wish-note{width:72px;font-size:.4rem;line-height:1.12;}
+    .actions{gap:6px;}
+    .action-btn{font-size:.34rem;padding:5px 8px;letter-spacing:1px;}
+  }
+</style>
+</head>
+<body>
+  <main class="stage">
+    <header class="header">
+      <div class="kicker">Nhắm mắt lại một chút</div>
+      <h1>Thổi nến và cầu nguyện</h1>
+    </header>
+
+    <section class="birthday-scene" aria-label="Bánh sinh nhật có nến">
+      <p class="wish-note">Hãy nghĩ về một điều thật đẹp, rồi thổi nến để gửi điều ước ấy lên bầu trời.</p>
+      <div class="cake-wrap">
+        <img class="cake-art" src="img/cake.png" alt="Bánh sinh nhật có mèo" draggable="false">
+        <span class="hat-flame"></span>
+        <span class="hat-smoke"></span>
+        <div class="candle one"><span class="flame"></span><span class="smoke"></span></div>
+        <div class="candle three"><span class="flame"></span><span class="smoke"></span></div>
+      </div>
+      <div class="party-guests" aria-hidden="true">
+        <img class="guest deft" src="img/Deft.png" alt="" draggable="false">
+        <img class="guest judy" src="img/judy.png" alt="" draggable="false">
+        <img class="guest pikachu" src="img/pikachu.png" alt="" draggable="false">
+        <img class="guest doraemon" src="img/doraemon.png" alt="" draggable="false">
+        <img class="guest nick" src="img/nick.png" alt="" draggable="false">
+        <img class="guest minion" src="img/minion.png" alt="" draggable="false">
+        <img class="guest math" src="img/math.png" alt="" draggable="false">
+        <img class="guest cat" src="img/cat.png" alt="" draggable="false">
+        <img class="guest conan" src="img/conan.png" alt="" draggable="false">
+        <img class="guest kid" src="img/kid.png" alt="" draggable="false">
+      </div>
+      <p class="message">Điều ước đã được gửi đi. Chúc cậu luôn hạnh phúc.</p>
+    </section>
+
+    <nav class="actions" aria-label="Điều hướng sinh nhật">
+      <button class="action-btn" id="wish-button" type="button">Thổi nến</button>
+      <a class="action-btn" href="index.html">Quay lại lá thư</a>
+    </nav>
+
+    <section class="invite-modal" id="invite-modal" aria-live="polite">
+      <p>Có một số người bạn muốn đến tham dự sinh nhật của cậu, cậu có muốn chung vui cùng họ hay không?</p>
+      <div class="invite-actions">
+        <button class="action-btn" id="party-yes" type="button">Có</button>
+        <button class="action-btn" id="party-no" type="button">Để sau</button>
+      </div>
+    </section>
+  </main>
+
+<audio id="blow-sound" src="sound/2.wav" preload="auto"></audio>
+
+<script>
+const wishButton = document.getElementById('wish-button');
+const blowSound = document.getElementById('blow-sound');
+const inviteModal = document.getElementById('invite-modal');
+const partyYes = document.getElementById('party-yes');
+const partyNo = document.getElementById('party-no');
+wishButton.addEventListener('click', () => {
+  blowSound.currentTime = 0;
+  blowSound.play().catch(() => {});
+  document.body.classList.add('wished');
+  wishButton.textContent = 'Đã cầu nguyện';
+  wishButton.disabled = true;
+  setTimeout(() => inviteModal.classList.add('show'), 850);
+});
+
+partyYes.addEventListener('click', () => {
+  inviteModal.classList.remove('show');
+  document.body.classList.add('party');
+});
+
+partyNo.addEventListener('click', () => {
+  inviteModal.classList.remove('show');
+});
+</script>
+</body>
+</html>
