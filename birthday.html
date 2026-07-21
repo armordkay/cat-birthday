@@ -284,6 +284,12 @@
     transform:translate(-50%, -50%) translateY(0) scale(1);
     transition-delay:var(--d);
   }
+  body.party .wish-book-link{
+    display:block;
+  }
+  body.postponed .invite-again-btn{
+    display:block;
+  }
   @keyframes flame-out{
     to{opacity:0;transform:translateX(-50%) translateY(-4px) scale(.15);filter:none;}
   }
@@ -320,6 +326,12 @@
     background:var(--ink);
     color:var(--cream);
     transform:translateY(-1px);
+  }
+  .wish-book-link{
+    display:none;
+  }
+  .invite-again-btn{
+    display:none;
   }
   .wish-note{
     position:static;
@@ -404,7 +416,8 @@
 
     <nav class="actions" aria-label="Điều hướng sinh nhật">
       <button class="action-btn" id="wish-button" type="button">Thổi nến</button>
-      <a class="action-btn" href="wish.html">Sổ tay sinh nhật</a>
+      <button class="action-btn invite-again-btn" id="invite-again" type="button">Mời các bạn đến chung vui</button>
+      <a class="action-btn wish-book-link" href="wish.html">Sổ tay sinh nhật</a>
       <a class="action-btn" href="index.html">Quay lại lá thư</a>
     </nav>
 
@@ -418,16 +431,28 @@
   </main>
 
 <audio id="blow-sound" src="sound/2.wav" preload="auto"></audio>
+<audio id="party-sound" src="sound/3.wav" preload="auto"></audio>
+<audio id="cheer-sound" src="sound/4.wav" preload="auto"></audio>
 
 <script>
 const wishButton = document.getElementById('wish-button');
 const blowSound = document.getElementById('blow-sound');
+const partySound = document.getElementById('party-sound');
+const cheerSound = document.getElementById('cheer-sound');
 const inviteModal = document.getElementById('invite-modal');
 const partyYes = document.getElementById('party-yes');
 const partyNo = document.getElementById('party-no');
+const inviteAgain = document.getElementById('invite-again');
+
+function playWishCheers(){
+  cheerSound.currentTime = 0;
+  cheerSound.play().catch(() => {});
+}
+
 wishButton.addEventListener('click', () => {
   blowSound.currentTime = 0;
   blowSound.play().catch(() => {});
+  setTimeout(playWishCheers, 450);
   document.body.classList.add('wished');
   wishButton.textContent = 'Đã cầu nguyện';
   wishButton.disabled = true;
@@ -436,11 +461,19 @@ wishButton.addEventListener('click', () => {
 
 partyYes.addEventListener('click', () => {
   inviteModal.classList.remove('show');
+  partySound.currentTime = 0;
+  partySound.play().catch(() => {});
+  document.body.classList.remove('postponed');
   document.body.classList.add('party');
 });
 
 partyNo.addEventListener('click', () => {
   inviteModal.classList.remove('show');
+  document.body.classList.add('postponed');
+});
+
+inviteAgain.addEventListener('click', () => {
+  inviteModal.classList.add('show');
 });
 </script>
 </body>
